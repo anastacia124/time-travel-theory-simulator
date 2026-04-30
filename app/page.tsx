@@ -59,6 +59,9 @@ export default function Home() {
               <a href="/theories" className="hover:text-white">
                 Theories
               </a>
+              <a href="/oracle" className="hover:text-white">
+                Oracle
+              </a>
             </div>
           </nav>
 
@@ -94,6 +97,13 @@ export default function Home() {
                   className="rounded-full border border-white/30 px-6 py-3 text-center font-medium text-white transition hover:bg-white/10"
                 >
                   Explore Theories
+                </a>
+
+                <a
+                  href="/oracle"
+                  className="rounded-full border border-blue-300/40 px-6 py-3 text-center font-medium text-blue-100 transition hover:bg-blue-300/10"
+                >
+                  Ask the Oracle
                 </a>
               </div>
             </motion.div>
