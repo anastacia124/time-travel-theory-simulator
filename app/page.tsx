@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 const features = [
   {
     title: "Time Dilation",
@@ -29,6 +33,19 @@ export default function Home() {
 
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:80px_80px] opacity-20" />
 
+        <motion.div
+          className="absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl flex-col">
           <nav className="flex items-center justify-between py-4">
             <a href="/" className="text-sm font-semibold tracking-[0.3em]">
@@ -46,7 +63,11 @@ export default function Home() {
           </nav>
 
           <div className="grid flex-1 items-center gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
               <p className="mb-5 text-sm uppercase tracking-[0.4em] text-blue-300">
                 Time Travel Theory Simulator
               </p>
@@ -75,27 +96,36 @@ export default function Home() {
                   Explore Theories
                 </a>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="rounded-[2rem] border border-blue-300/20 bg-white/5 p-6 shadow-2xl backdrop-blur">
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="rounded-[2rem] border border-blue-300/20 bg-white/5 p-6 shadow-2xl backdrop-blur"
+            >
               <p className="text-sm uppercase tracking-[0.3em] text-blue-200">
                 Active Modules
               </p>
 
               <div className="mt-6 space-y-4">
-                {features.map((feature) => (
-                  <div
+                {features.map((feature, index) => (
+                  <motion.div
                     key={feature.title}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
                     className="rounded-2xl border border-white/10 bg-black/30 p-5"
                   >
                     <h2 className="text-lg font-semibold">{feature.title}</h2>
                     <p className="mt-2 text-sm leading-6 text-gray-400">
                       {feature.description}
                     </p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
