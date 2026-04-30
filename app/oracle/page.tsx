@@ -1,4 +1,22 @@
+"use client";
+
+import { useState } from "react";
+
 export default function OraclePage() {
+  const [question, setQuestion] = useState("");
+  const [response, setResponse] = useState("");
+
+  function handleAskQuestion() {
+    if (!question.trim()) {
+      setResponse("Ask a question first so The Temporal Oracle has something to analyze.");
+      return;
+    }
+
+    setResponse(
+      `The Temporal Oracle is analyzing your question: "${question}". Soon, this response will be powered by the OpenAI API.`
+    );
+  }
+
   return (
     <main className="min-h-screen bg-black px-6 py-12 text-white">
       <section className="mx-auto max-w-5xl">
@@ -28,16 +46,22 @@ export default function OraclePage() {
           </label>
 
           <textarea
+            value={question}
+            onChange={(event) => setQuestion(event.target.value)}
             placeholder="Example: Could wormholes make time travel possible?"
             className="mt-4 min-h-40 w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition placeholder:text-gray-500 focus:border-blue-300"
           />
 
-          <button className="mt-5 rounded-2xl bg-white px-5 py-3 font-semibold text-black transition hover:bg-blue-200">
+          <button
+            type="button"
+            onClick={handleAskQuestion}
+            className="mt-5 rounded-2xl bg-white px-5 py-3 font-semibold text-black transition hover:bg-blue-200"
+          >
             Ask Question
           </button>
 
           <div className="mt-8 rounded-2xl border border-white/10 bg-black/30 p-5 text-gray-300">
-            The Oracle response will appear here after we connect the AI API.
+            {response || "The Oracle response will appear here after you ask a question."}
           </div>
         </div>
       </section>
