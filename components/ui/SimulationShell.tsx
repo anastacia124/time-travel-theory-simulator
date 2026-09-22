@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 type SimulationShellProps = {
@@ -15,23 +16,23 @@ export default function SimulationShell({ children }: SimulationShellProps) {
         <div className="absolute inset-0 -z-10 bg-black/35" />
 
         <nav className="flex items-center justify-between border-b border-blue-300/10 pb-5">
-          <a
+          <Link
             href="/"
             className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-100"
           >
             TT Simulator
-          </a>
+          </Link>
 
           <div className="hidden items-center gap-6 text-sm text-gray-300 sm:flex">
-            <a href="/calculator" className="hover:text-white">
+            <Link href="/calculator" className="hover:text-white">
               Calculator
-            </a>
-            <a href="/theories" className="hover:text-white">
+            </Link>
+            <Link href="/theories" className="hover:text-white">
               Theories
-            </a>
-            <a href="/oracle" className="hover:text-white">
+            </Link>
+            <Link href="/oracle" className="hover:text-white">
               Oracle
-            </a>
+            </Link>
           </div>
         </nav>
 

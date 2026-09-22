@@ -1,3 +1,4 @@
+import Link from "next/link";
 import TimeDilationCalculator from "@/components/TimeDilationCalculator";
 
 export default function CalculatorPage() {
@@ -8,9 +9,9 @@ export default function CalculatorPage() {
 
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:80px_80px] opacity-20" />
 
-        <a href="/" className="text-sm text-blue-300 hover:text-blue-200">
+        <Link href="/" className="text-sm text-blue-300 hover:text-blue-200">
           ← Back to Home
-        </a>
+        </Link>
 
         <div className="mt-12 rounded-[2rem] border border-blue-300/20 bg-black/45 p-8 shadow-2xl backdrop-blur">
           <p className="mb-4 text-sm uppercase tracking-[0.4em] text-blue-300">

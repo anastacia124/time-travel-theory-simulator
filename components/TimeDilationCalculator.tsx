@@ -8,6 +8,7 @@ export default function TimeDilationCalculator() {
   const [travelerTime, setTravelerTime] = useState("5");
   const [earthTime, setEarthTime] = useState<number | null>(null);
   const [lorentzFactor, setLorentzFactor] = useState<number | null>(null);
+  const [submitted, setSubmitted] = useState<{ speed: number; time: number } | null>(null);
   const [error, setError] = useState("");
 
   function handleCalculate() {
@@ -15,17 +16,19 @@ export default function TimeDilationCalculator() {
       const speed = Number(speedFraction);
       const time = Number(travelerTime);
 
-      if (Number.isNaN(speed) || Number.isNaN(time)) {
+      if (!speedFraction.trim() || !travelerTime.trim() || !Number.isFinite(speed) || !Number.isFinite(time)) {
         throw new Error("Please enter valid numbers.");
       }
 
       const gamma = calculateLorentzFactor(speed);
       const earth = calculateEarthTime(time, speed);
 
+      setSubmitted({ speed, time });
       setLorentzFactor(gamma);
       setEarthTime(earth);
       setError("");
     } catch (err) {
+      setSubmitted(null);
       setLorentzFactor(null);
       setEarthTime(null);
 
@@ -58,17 +61,18 @@ export default function TimeDilationCalculator() {
         </div>
 
         <p className="mt-5 text-sm leading-6 text-gray-400">
-          Use a value between 0 and 1 for speed. For example, 0.9 means 90% of
+          Use a value from 0 up to (but not including) 1 for speed. For example, 0.9 means 90% of
           the speed of light.
         </p>
 
         <div className="mt-8 space-y-5">
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-300">
+            <label htmlFor="speed" className="mb-2 block text-sm font-medium text-gray-300">
               Speed as fraction of light speed
             </label>
 
             <input
+              id="speed"
               type="number"
               step="0.01"
               min="0"
@@ -100,7 +104,7 @@ export default function TimeDilationCalculator() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-300">
+            <label htmlFor="traveler-time" className="mb-2 block text-sm font-medium text-gray-300">
               Traveler time in years
             </label>
 
@@ -108,6 +112,7 @@ export default function TimeDilationCalculator() {
               type="number"
               step="0.1"
               min="0"
+              id="traveler-time"
               value={travelerTime}
               onChange={(event) => setTravelerTime(event.target.value)}
               className="w-full rounded-2xl border border-white/10 bg-black/50 px-4 py-3 text-white outline-none transition placeholder:text-gray-500 focus:border-blue-300"
@@ -135,12 +140,15 @@ export default function TimeDilationCalculator() {
           Simulation Result
         </p>
 
-        {earthTime === null || lorentzFactor === null ? (
+        {earthTime === null || lorentzFactor === null || submitted === null ? (
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5 text-gray-300">
             Enter your values and run the simulation to see the time shift.
           </div>
         ) : (
-          <div className="mt-8 space-y-5">
+          <div className="mt-8 space-y-5" aria-live="polite">
+            {(Number(speedFraction) !== submitted.speed || Number(travelerTime) !== submitted.time) && (
+              <p className="text-sm text-amber-200">Inputs changed. Run the calculation again to update these results.</p>
+            )}
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
                 <p className="text-sm text-gray-400">Lorentz Factor</p>
@@ -167,8 +175,8 @@ export default function TimeDilationCalculator() {
               </p>
 
               <p className="mt-4 leading-7 text-gray-300">
-                The traveler feels {travelerTime} years pass. Because they are
-                moving at {speedPercent.toFixed(2)}% of light speed, Earth
+                The traveler feels {submitted.time} years pass. Because they are
+                moving at {(submitted.speed * 100).toFixed(2)}% of light speed, Earth
                 experiences {earthTime.toFixed(2)} years during that same trip.
               </p>
             </div>

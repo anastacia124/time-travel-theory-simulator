@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { motion } from "framer-motion";
 
 const features = [
@@ -79,20 +81,20 @@ export default function Home() {
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl flex-col">
           <nav className="flex items-center justify-between py-4">
-            <a href="/" className="text-sm font-semibold tracking-[0.3em]">
+            <Link href="/" className="text-sm font-semibold tracking-[0.3em]">
               TT SIMULATOR
-            </a>
+            </Link>
 
             <div className="hidden gap-6 text-sm text-gray-300 sm:flex">
-              <a href="/calculator" className="hover:text-white">
+              <Link href="/calculator" className="hover:text-white">
                 Calculator
-              </a>
-              <a href="/theories" className="hover:text-white">
+              </Link>
+              <Link href="/theories" className="hover:text-white">
                 Theories
-              </a>
-              <a href="/oracle" className="hover:text-white">
+              </Link>
+              <Link href="/oracle" className="hover:text-white">
                 Oracle
-              </a>
+              </Link>
             </div>
           </nav>
 
@@ -162,26 +164,26 @@ export default function Home() {
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
-                <a
+                <Link
                   href="/calculator"
                   className="rounded-full bg-white px-6 py-3 text-center font-medium text-black transition hover:bg-blue-200"
                 >
                   Initiate Simulation
-                </a>
+                </Link>
 
-                <a
+                <Link
                   href="/theories"
                   className="rounded-full border border-white/30 px-6 py-3 text-center font-medium text-white transition hover:bg-white/10"
                 >
                   Explore Theories
-                </a>
+                </Link>
 
-                <a
+                <Link
                   href="/oracle"
                   className="rounded-full border border-blue-300/40 px-6 py-3 text-center font-medium text-blue-100 transition hover:bg-blue-300/10"
                 >
                   Ask the Oracle
-                </a>
+                </Link>
               </div>
             </motion.div>
 

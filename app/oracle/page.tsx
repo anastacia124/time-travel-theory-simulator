@@ -1,13 +1,18 @@
 "use client";
 
+import Link from "next/link";
+
 import { useState } from "react";
 
 export default function OraclePage() {
   const [question, setQuestion] = useState("");
   const [response, setResponse] = useState("");
+  const [source, setSource] = useState<"gemini" | "fallback" | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleAskQuestion() {
+    if (isLoading) return;
+    setSource(null);
     if (!question.trim()) {
       setResponse("Ask a question first so The Temporal Oracle has something to analyze.");
       return;
@@ -22,7 +27,8 @@ export default function OraclePage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ question: question.trim() }),
+        signal: AbortSignal.timeout(20000),
       });
 
       const data = await result.json();
@@ -31,7 +37,11 @@ export default function OraclePage() {
         throw new Error(data.error || "Something went wrong.");
       }
 
+      if (typeof data.answer !== "string" || !["gemini", "fallback"].includes(data.source)) {
+        throw new Error("The Oracle returned an invalid response. Please retry.");
+      }
       setResponse(data.answer);
+      setSource(data.source);
     } catch (error) {
       if (error instanceof Error) {
         setResponse(error.message);
@@ -46,9 +56,9 @@ export default function OraclePage() {
   return (
     <main className="min-h-screen bg-black px-6 py-12 text-white">
       <section className="mx-auto max-w-5xl">
-        <a href="/" className="text-sm text-blue-300 hover:text-blue-200">
+        <Link href="/" className="text-sm text-blue-300 hover:text-blue-200">
           ← Back to Home
-        </a>
+        </Link>
 
         <div className="mt-12">
           <p className="mb-4 text-sm uppercase tracking-[0.4em] text-blue-300">
@@ -67,11 +77,14 @@ export default function OraclePage() {
         </div>
 
         <div className="mt-12 rounded-3xl border border-blue-300/20 bg-white/5 p-6 shadow-2xl backdrop-blur">
-          <label className="block text-sm font-medium text-gray-300">
+          <label htmlFor="oracle-question" className="block text-sm font-medium text-gray-300">
             Ask the Oracle
           </label>
 
           <textarea
+            id="oracle-question"
+            maxLength={2000}
+            disabled={isLoading}
             value={question}
             onChange={(event) => setQuestion(event.target.value)}
             placeholder="Example: Could wormholes make time travel possible?"
@@ -87,7 +100,12 @@ export default function OraclePage() {
             {isLoading ? "Consulting the Oracle..." : "Ask Question"}
           </button>
 
-          <div className="mt-8 whitespace-pre-line rounded-2xl border border-white/10 bg-black/30 p-5 leading-7 text-gray-300">
+          {source && (
+            <p role="status" className="mt-6 text-sm text-cyan-200">
+              {source === "gemini" ? "AI response · Gemini" : "Preset explanation · Live AI unavailable. This is a general reference, not a generated answer."}
+            </p>
+          )}
+          <div aria-live="polite" aria-busy={isLoading} className="mt-8 whitespace-pre-line rounded-2xl border border-white/10 bg-black/30 p-5 leading-7 text-gray-300">
             {response ||
               "The Oracle response will appear here after you ask a question."}
           </div>
