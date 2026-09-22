@@ -1,5 +1,7 @@
 "use client";
 
+import HudPanel from "@/components/ui/HudPanel";
+import StatusBadge from "@/components/ui/StatusBadge";
 import { useState } from "react";
 import { calculateEarthTime, calculateLorentzFactor } from "@/lib/physics";
 
@@ -44,7 +46,7 @@ export default function TimeDilationCalculator() {
 
   return (
     <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.1fr]">
-      <section className="rounded-3xl border border-blue-300/20 bg-black/45 p-6 shadow-2xl backdrop-blur">
+      <HudPanel>
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-blue-200">
@@ -55,9 +57,7 @@ export default function TimeDilationCalculator() {
             </h2>
           </div>
 
-          <div className="hidden rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200 sm:block">
-            Online
-          </div>
+          <StatusBadge>Ready</StatusBadge>
         </div>
 
         <p className="mt-5 text-sm leading-6 text-gray-400">
@@ -122,7 +122,7 @@ export default function TimeDilationCalculator() {
           <button
             type="button"
             onClick={handleCalculate}
-            className="w-full rounded-2xl bg-white px-5 py-3 font-semibold text-black transition hover:bg-blue-200"
+            className="primary-action w-full"
           >
             Run Temporal Calculation
           </button>
@@ -133,9 +133,9 @@ export default function TimeDilationCalculator() {
             </p>
           )}
         </div>
-      </section>
+      </HudPanel>
 
-      <section className="rounded-3xl border border-cyan-300/20 bg-black/45 p-6 shadow-2xl backdrop-blur">
+      <HudPanel>
         <p className="text-sm uppercase tracking-[0.3em] text-blue-200">
           Simulation Result
         </p>
@@ -193,7 +193,7 @@ export default function TimeDilationCalculator() {
             </div>
           </div>
         )}
-      </section>
+      </HudPanel>
     </div>
   );
 }

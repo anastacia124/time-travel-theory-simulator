@@ -28,3 +28,23 @@
 - Shared design rollout, missing pages, and full README are future steps. This update preserves the current visual design.
 
 Browser automation could not run because its browser download timed out. The interaction checks above should be completed locally.
+
+# Shared HUD update
+
+## Changes
+- Root layout wraps all four pages in SimulationShell so navigation and footer stay consistent.
+- Mobile navigation remains visible; active page uses aria-current.
+- Shared HudPanel, SectionHeader, DataStatCard, and StatusBadge components replace repeated interface markup.
+- Home has a CSS portal animation, three linked investigation modules, and accurate science labels instead of invented live measurements.
+- Pause motion control and reduced-motion preference support; keyboard skip link and focus outlines.
+- Calculator and Oracle state, math, API requests, and answer-source labels are preserved.
+- Browser title and description now identify TTTS.
+
+## Apply this version
+Stop npm run dev, extract the downloaded ZIP into a separate folder, and copy its contents into your original project folder, replacing matching files. Preserve your local .env.local and .git. No dependencies were added. Run npm test, npm run lint, then npm run dev.
+
+## Manual acceptance check
+Visit Command, Calculator, Theories, and Oracle. Check that the selected navigation item changes. Narrow the browser to a phone-sized width: all four navigation links should remain visible. Pause motion on Home and check the portal stops. Repeat the calculator input-change check and one Oracle question. Live Gemini requires your local key.
+
+## Scope
+This is the shared visual layer for the four existing routes. Wormholes, Paradoxes, FAQ, and About remain future pages. Original Git history is on your computer; review and commit after checking this update. Browser visual verification could not be performed in this environment because Chromium was unavailable.
