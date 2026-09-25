@@ -48,3 +48,27 @@ Visit Command, Calculator, Theories, and Oracle. Check that the selected navigat
 
 ## Scope
 This is the shared visual layer for the four existing routes. Wormholes, Paradoxes, FAQ, and About remain future pages. Original Git history is on your computer; review and commit after checking this update. Browser visual verification could not be performed in this environment because Chromium was unavailable.
+
+# Interactive exploration pages and beginner-friendly explanations - 2026-09-25
+
+This update supersedes the earlier scope note that listed Wormholes, Paradoxes, FAQ, and About as future pages.
+
+## Changes
+- Added /wormholes with three conceptual journeys, an explanatory diagram, plain-language definitions, and clearly labeled invented dates.
+- Added /paradoxes with three story rules, two actions, reset controls, and explanations that distinguish a consistent story from a physical prediction.
+- Added /faq with beginner definitions, Calculator examples, Oracle answer-source explanations, and keyboard/motion guidance.
+- Added /about with project scope, learning links, and Anastacia Webster's creator introduction and motivation.
+- Extended the shared navigation to all eight pages with desktop and mobile layouts.
+- Reused the shared HUD components and added reusable science-context panels. New animation respects pause-motion and reduced-motion settings.
+- Simplified the shared subtitle and homepage summaries. Existing Calculator, Oracle, and physics logic remains unchanged.
+- Added two automated test groups for paradox outcomes.
+
+## Validation
+- Final production build passed, including TypeScript checks and generation of all eight page routes.
+- All six automated tests passed; full lint passed.
+- The user reviewed the updated pages and wording before this save.
+- Browser automation and a new live Gemini request were not run as part of this final validation.
+- Node reports an existing module-type warning during tests; it does not prevent the tests from passing.
+
+## Repository scope
+Only the reviewed source, styles, tests, and these notes are included in this update. TTTS.zip, environment files, dependencies, and generated build files are excluded. No dependencies were added.

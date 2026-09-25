@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 
-const routes = [["/", "Command"], ["/calculator", "Calculator"], ["/theories", "Theories"], ["/oracle", "Oracle"]];
+const routes = [["/", "Command"], ["/calculator", "Calculator"], ["/theories", "Theories"], ["/oracle", "Oracle"], ["/wormholes", "Wormholes"], ["/paradoxes", "Paradoxes"], ["/faq", "FAQ"], ["/about", "About"]];
 
 export default function SimulationShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -14,7 +14,7 @@ export default function SimulationShell({ children }: { children: ReactNode }) {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <div className="cosmic-grid" aria-hidden="true" />
       <header className="site-header">
-        <Link href="/" className="brand"><span className="brand-mark" aria-hidden="true">◈</span><span>TTTS<small>TEMPORAL RESEARCH INTERFACE</small></span></Link>
+        <Link href="/" className="brand"><span className="brand-mark" aria-hidden="true">◈</span><span>TTTS<small>Explore time travel</small></span></Link>
         <nav aria-label="Main navigation">
           {routes.map(([href, title], i) => <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined}><span className="nav-number">0{i + 1}</span>{title}</Link>)}
         </nav>

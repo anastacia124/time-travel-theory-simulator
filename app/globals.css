@@ -60,3 +60,37 @@ button { cursor:pointer; } button:disabled { cursor:wait; opacity:.6; }
 @media(prefers-reduced-motion:reduce) { *,*:before,*:after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
 @media(max-width:1000px) { .site-header { flex-wrap:wrap; gap:18px; }.site-header nav { order:3; flex-basis:100%; margin-left:0; }.motion-control { margin-left:auto; }.command-hero { min-height:440px; }.module-top span { font-size:9px; }.module-top .module-number { font-size:24px; } }
 @media(max-width:640px) { .workspace { padding:0 20px; }.site-header { padding:18px 20px; }.brand { font-size:20px; }.brand small { font-size:7px; }.site-header nav { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; }.site-header nav a { padding:11px 3px; text-align:center; font-size:11px; }.nav-number { display:none; }.system-strip { font-size:8px; }.system-strip span:last-child { display:none; }.command-hero { grid-template-columns:1fr; gap:22px; }.hero-copy h1 { font-size:59px; }.hero-description { font-size:14px; }.portal-stage { max-width:350px; }.dashboard-rail { gap:18px; grid-template-columns:1fr; }.dashboard-rail>div { border-left:0; padding:0; }.dashboard-rail strong { margin-top:4px; }.module-grid,.theory-grid,.stat-grid { grid-template-columns:1fr; }.section-line { align-items:start; flex-direction:column; }.hud-panel { padding:22px; }.section-header { padding-top:16px; }.terminal-bar { font-size:8px; }.site-footer { flex-direction:column; }.hero-actions { gap:12px; } }
+
+/* Extended navigation and conceptual explorers share the original HUD palette. */
+.site-header { flex-wrap:wrap; gap:18px; }
+.site-header nav { order:3; flex-basis:100%; margin-left:0; display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); }
+.site-header nav a { text-align:center; padding:12px 6px; }
+.motion-control { margin-left:auto; }
+.exploration-grid { display:grid; grid-template-columns:1fr 1.15fr; gap:20px; align-items:start; }
+.exploration-copy { color:#acbbcd; font-size:15px; line-height:1.85; margin-top:18px; }
+.exploration-context { margin:24px 0; }
+.exploration-context .hud-panel>span { display:inline-block; max-width:100%; font-size:10px; letter-spacing:.1em; }
+.exploration-options { margin-top:24px; min-width:0; }
+.exploration-options legend { color:#8edbdd; font-size:13px; margin-bottom:12px; }
+.exploration-options label { display:flex; align-items:center; gap:12px; padding:14px; margin-bottom:8px; border:1px solid #83bada30; border-radius:7px; cursor:pointer; color:#c3d2e3; }
+.exploration-options label:has(input:checked) { background:#6ddedc0d; border-color:#78e9ed80; }
+.exploration-options input { accent-color:#92f4e9; width:18px; height:18px; flex-shrink:0; }
+.exploration-options small { display:block; line-height:1.6; color:#9cafc4; margin-top:5px; }
+.scenario-timeline { list-style:decimal; padding-left:24px; margin-top:24px; }
+.scenario-timeline li { padding:0 0 20px 8px; line-height:1.8; color:#c3d2e3; }
+.wormhole-map { display:block; width:100%; height:auto; margin-bottom:20px; }
+.wormhole-map circle { fill:#102536; stroke:#92f4e9; stroke-width:2; }
+.wormhole-map text { fill:#c3d2e3; font-size:13px; text-anchor:middle; font-family:var(--font-geist-mono),monospace; }
+.route-path { fill:none; stroke:#536b83; stroke-width:2; }
+.active-route { stroke:#92f4e9; stroke-width:3; stroke-dasharray:9 7; animation:route-flow 3s linear infinite; }
+.shortcut-route { stroke:#b391f0; }
+@keyframes route-flow { to { stroke-dashoffset:-64; } }
+.faq-item { padding:20px 0; border-bottom:1px solid #83bada30; }
+.faq-item:last-child { border-bottom:0; }
+.faq-item summary { cursor:pointer; color:#d7e9f5; line-height:1.7; }
+.faq-item summary:focus-visible { outline:2px solid #82eeef; outline-offset:5px; }
+.science-note a,.exploration-reading a { color:#92f4e9; text-decoration:underline; text-underline-offset:4px; }
+.exploration-reading ul { display:grid; gap:14px; margin-top:22px; padding-left:20px; list-style:disc; }
+@media(max-width:1000px) { .site-header nav { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+@media(max-width:700px) { .exploration-grid { grid-template-columns:1fr; } }
+@media(max-width:380px) { .site-header nav { grid-template-columns:repeat(2,minmax(0,1fr)); } }
