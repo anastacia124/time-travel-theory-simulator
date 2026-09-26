@@ -1,5 +1,7 @@
 # Time Travel Theory Simulator (TTTS)
 
+[Live Demo](https://time-travel-theory-simulator.vercel.app/)
+
 **Explore time travel.** TTTS is an educational website created by **Anastacia Webster**, an aspiring software engineer inspired by a lifelong interest in space. It combines a time-dilation calculator, interactive thought experiments, and explanations for readers with no physics background.
 
 The goal is to make unfamiliar ideas approachable while clearly separating measured science, theoretical possibilities, and invented story rules.
