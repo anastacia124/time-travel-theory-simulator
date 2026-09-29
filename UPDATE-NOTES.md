@@ -1,3 +1,31 @@
+# Docker support and security updates - 2026-09-28
+
+## Changes
+- Preserved the uncommitted Docker work on `feat/docker-support`: multi-stage Node 24 image, non-root runtime, secret exclusions, Docker-only standalone output, and beginner README instructions.
+- Updated `next` and `eslint-config-next` from 16.2.4 to exactly 16.3.6 after checking npm engine/peer requirements and official security advisories. Node 24 and React/React DOM 19.2.4 remain compatible.
+- Next.js 16.3.6 resolves Sharp 0.35.5, above the patched minimum 0.35.4. The rebuilt Linux image contains libheif 1.23.5.
+- Applied targeted transitive updates within existing dependency ranges: Babel core 7.29.7, baseline-browser-mapping 2.11.26, brace-expansion 1.1.21 and 5.0.12, Browserslist 4.29.2, js-yaml 4.3.2, nanoid 3.3.19, PostCSS 8.5.23, protobufjs 7.6.6, and ws 8.22.0, plus their required dependency updates.
+- No forced audit fix, unrelated major upgrades, dependency overrides, or application behavior changes. Webpack development and normal local/Vercel build configuration are preserved.
+
+## Security references
+- [Next.js Windows-hosted RCE, GHSA-p293-qw3h-jr36](https://github.com/vercel/next.js/security/advisories/GHSA-p293-qw3h-jr36): patched in Next.js 16.3.3; the Linux container does not meet the Windows filesystem prerequisite.
+- [Next.js AVIF image-optimization RCE, GHSA-2xp9-vwfh-vxw4](https://github.com/vercel/next.js/security/advisories/GHSA-2xp9-vwfh-vxw4): patched in Next.js 16.3.3.
+- [Sharp/libheif vulnerabilities, GHSA-rgj7-g3m4-5g8c](https://github.com/lovell/sharp/security/advisories/GHSA-rgj7-g3m4-5g8c): patched in Sharp 0.35.4; the resolved image uses 0.35.5.
+
+## Validation
+- Full `npm audit --json`: zero vulnerabilities, down from 11 affected package entries. Docker's clean `npm ci` also reported zero vulnerabilities.
+- All six existing tests passed; ESLint passed. The existing Node module-type warning is non-failing.
+- Normal `npm run build` passed with TypeScript checks and all eight page routes; verified standalone output remains disabled for that build. The initial sandboxed attempt could not download Google fonts; the network-enabled retry passed.
+- Rebuilt `ttts:local` successfully and replaced only the identity-checked `ttts-local` test container. Verified the running container uses the rebuilt image.
+- All eight page routes returned HTTP 200 with main content. All 20 discovered/static test assets, including JS, CSS, fonts, favicon, and public SVGs, returned nonempty HTTP 200 responses.
+- All three Oracle preset branches returned HTTP 200 with `source: "fallback"` without a Gemini key.
+- Runtime checks confirmed Linux, UID 1000, no Gemini key, no `.env.local`, and localhost-only publication at http://127.0.0.1:3001.
+
+## Limits and repository state
+- npm audit covers known npm advisories at check time; this was not an OS-image vulnerability scan or proof of absence of all security defects.
+- The project owner confirmed that manual browser checks passed. Live Gemini inside Docker and a Vercel deployment remain untested. The build still requires network access for Google fonts.
+- Only Docker configuration, dependency updates, and documentation are included for review on `feat/docker-support`. Environment files, secrets, generated output, and ZIP archives are excluded. No merge or deployment is part of this change.
+
 # TTTS reliability update
 
 ## Apply on Windows

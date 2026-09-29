@@ -25,7 +25,7 @@ All eight pages share the HUD-style panels, navigation, and footer. Layouts adap
 
 Versions below reflect declarations in [package.json](package.json); [package-lock.json](package-lock.json) records the resolved dependency versions.
 
-- **Next.js 16.2.4**, using the App Router and a server route for Oracle requests.
+- **Next.js 16.3.6**, using the App Router and a server route for Oracle requests.
 - **React and React DOM 19.2.4**, with TypeScript 5.
 - **Tailwind CSS 4**, its PostCSS plugin, and custom CSS for the shared design and animations.
 - **Geist and Geist Mono**, loaded through `next/font/google`.
@@ -76,6 +76,54 @@ Restart the development server after changing these settings. Do not add a `NEXT
 The existing `dev` script is **`next dev --webpack`**. Webpack is the tool that bundles the application for development; the explicit flag selects it instead of Next.js 16's default Turbopack.
 
 Use `npm run dev` to preserve this configuration. Running plain `npx next dev` would select the default bundler instead. The production script is separately configured as **`next build`**, which uses Turbopack by default in this version. There is no custom Webpack configuration in `next.config.ts`.
+
+## Run with Docker
+
+Start Docker Desktop with Linux containers enabled. Run these commands from the project folder in your terminal (including PowerShell). Docker provides Node 24 inside the image, so a local Node installation is not required for this workflow.
+
+An **image** is the packaged app. A **container** is a running instance of it. Build the image first; the initial build downloads dependencies and Google fonts and needs internet access:
+
+```bash
+docker build --tag ttts:local .
+```
+
+Start a container without an API key to use Oracle's preset explanations:
+
+```bash
+docker run --detach --init --name ttts-local --publish 127.0.0.1:3001:3000 ttts:local
+```
+
+Open [http://127.0.0.1:3001](http://127.0.0.1:3001). The port mapping exposes the app only on your computer. If 3001 is busy, change only the first port, for example `127.0.0.1:3002:3000`, and open port 3002 instead. View startup messages with `docker logs ttts-local`.
+
+Stop the container when finished, and start it again later:
+
+```bash
+docker stop ttts-local
+docker start ttts-local
+```
+
+To replace it after rebuilding the image or changing runtime settings, stop and remove the old container, then run it again:
+
+```bash
+docker stop ttts-local
+docker rm ttts-local
+```
+
+### Optional Gemini key at runtime
+
+Keep `GEMINI_API_KEY` and optional `GEMINI_MODEL` in your local `.env.local` as described above, using plain `NAME=value` lines without surrounding quotes or shell substitutions. After removing the previous container, use:
+
+```bash
+docker run --detach --init --name ttts-local --publish 127.0.0.1:3001:3000 --env-file .env.local ttts:local
+```
+
+Docker reads that file when creating the container. It does not copy the file into the image. Changes to the file require recreating the container; rebuilding the image is unnecessary. Omit `--env-file` to return to missing-key fallback mode. Never pass credentials as build arguments or add them to the Dockerfile. Avoid sharing container inspection output, which can include runtime environment values.
+
+The Dockerfile separates dependency installation, compilation, and runtime stages, following [Docker's multi-stage guidance](https://docs.docker.com/build/building/multi-stage/). The runtime uses the non-root `node` user and includes Next.js's standalone server, traced dependencies, public files, and generated static assets. `.dockerignore` excludes environment files, common credential files, dependencies, previous build output, Git history, and ZIP archives from the build context.
+
+`DOCKER_BUILD=1` enables standalone output only during the Docker build. Keep it unset for normal local and Vercel builds. The existing `npm run dev` Webpack setup, `npm start`, and Vercel build workflow remain unchanged. Docker starts its packaged server with `node server.js`.
+
+Validation after the September 28, 2026 security update: the normal production build and Docker image build passed, all six existing tests passed, and ESLint passed. HTTP checks against the rebuilt container passed for all eight pages, 20 static assets (including JavaScript, CSS, fonts, and public files), and all three missing-key Oracle presets. The Linux runtime used UID 1000, Next.js 16.3.6, Sharp 0.35.5, and libheif 1.23.5; it had no Gemini key or `.env.local` and published only `127.0.0.1:3001`. The full npm audit reported zero vulnerabilities after targeted compatible dependency updates. Automated checks verify server responses. The project owner also confirmed that manual browser checks passed. Live Gemini inside Docker remains untested. See [UPDATE-NOTES.md](UPDATE-NOTES.md) for security references and validation limits.
 
 ## Commands
 
