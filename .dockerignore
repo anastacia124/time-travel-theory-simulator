@@ -1,0 +1,38 @@
+# Local environment and credential files must never enter the build context.
+**/.env*
+**/*.env
+**/.npmrc
+**/.netrc
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+**/*credentials*.json
+**/secrets
+**/.aws
+**/.ssh
+**/.docker
+
+# Dependencies, generated output, and archives.
+**/node_modules
+**/.next
+**/out
+**/build
+**/dist
+**/coverage
+**/*.tsbuildinfo
+**/*.log
+**/*.[zZ][iI][pP]
+next-env.d.ts
+
+# Repository history and local tooling.
+**/.git
+.github
+.vercel
+.vscode
+.idea
+.codex
+.agents
+.DS_Store
+Dockerfile*
+.dockerignore
